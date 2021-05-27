@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <style>
+    body {
+      font-family: "Inter";
+    }
+
+    label, button {
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    input, textarea {
+      border: 3px solid #eee;
+      padding: .4em 1em;
+      border-radius: 6px;
+    }
+
+    form {
+      display: grid;
+      grid-row-gap: 10px;
+      justify-content: center;
+    }
+
+    button {
+      margin-top: 10px;
+      background: #133EF5;
+      color: #fff;
+      padding: 10px 0;
+      border: 0;
+      border-radius: 6px;
+    }
+    #find_button {
+    width: 400px;
+    height : 40px;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  </style>
+</head>
+<body id="body">
+    <div>
+      <div id="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Criminal Detection</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Contact US</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <button onclick= find() id="find_button" >Find</button>
+    
+  <script>
+  function find(){
+   fetch("http://localhost:3000/find",{
+          method: 'get',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify()
+          }).then(response => response.json()).then(response =>{
+      
+       if(response.status === 200){
+        alert("A Criminal")
+
+      } 
+      else{
+        alert("Not a Criminal")
+      } 
+      var img = document.createElement('img');
+      img.src = `https://face-target-aws.s3.ap-south-1.amazonaws.com/${response.output_img_url}` 
+      document.getElementById('body').appendChild(img);
+      console.log(response)
+      
+      var img1 = document.createElement('img');
+      img1.src = `https://face-input-aws.s3.ap-south-1.amazonaws.com/${response.input_img_url}` 
+      document.getElementById('body').appendChild(img1);
+      console.log(response)
+    
+    });
+  }
+  </script>
+
+</body>
+
+</html>
